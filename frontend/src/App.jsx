@@ -30,7 +30,8 @@ export default function App() {
     setError("");
 
     try {
-      const res = await fetch("/api/extract", {
+      const apiUrl = import.meta.env.VITE_API_URL || "";
+      const res = await fetch(`${apiUrl}/api/extract`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes }),
@@ -115,33 +116,30 @@ export default function App() {
   }
 
   return (
-    <>
-<main className="page">
-        <header className="page-header">
-          <h1>Notes to Action</h1>
-          <p>Messy updates in. Trackable work out.</p>
-        </header>
+    <main className="page">
+      <header className="page-header">
+        <h1>Notes to Action</h1>
+        <p>Messy updates in. Trackable work out.</p>
+      </header>
 
-        <InputPanel
-          notes={notes}
-          setNotes={setNotes}
-          onExtract={handleExtract}
-          loading={loading}
-          error={error}
-        />
+      <InputPanel
+        notes={notes}
+        setNotes={setNotes}
+        onExtract={handleExtract}
+        loading={loading}
+        error={error}
+      />
 
-        <ReviewPanel
-          pending={pending}
-          removingIds={removingIds}
-          onUpdate={updateTask}
-          onConfirm={confirmTask}
-          onDiscard={discardTask}
-          onConfirmAll={confirmAll}
-        />
+      <ReviewPanel
+        pending={pending}
+        removingIds={removingIds}
+        onUpdate={updateTask}
+        onConfirm={confirmTask}
+        onDiscard={discardTask}
+        onConfirmAll={confirmAll}
+      />
 
-        <Board tasks={confirmed} />
-      </main>
-    </>
+      <Board tasks={confirmed} />
+    </main>
   );
 }
-
